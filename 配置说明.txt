@@ -1,0 +1,47 @@
+ffmpeg3.4.6编译 for Android
+
+1.安装环境：
+win10 64
+mingw64(base Type install)安装gcc make等组建
+ndk-r14b
+2.配置环境
+  1. mingw64下D:\mingw64\mingw32\bin:\mingw64\mingw32\bin path环境配置
+  2.将F:\FFmpeg\glib_2.18.4-1_win32\bin下libglib-2.0-0.dll复制到D:\mingw64\bin下
+  3.#添加环境变量:打开E:/MinGW/msys/1.0/etc/profile文件
+  在 if [ $MSYSTEM == MINGW32 ]; then 
+    … 
+   fi
+  后面加上下面的环境变量设置如下：
+
+if [ -z "$PKG_CONFIG" ]; then 
+  export PKG_CONFIG=D:/mingw64/bin/pkg-config.exe
+fi
+
+//（注意这个地址要看你的MinGW安装位置） 
+if [ -z “$PKG_CONFIG_PATH” ]; then
+export PKG_CONFIG_PATH=MinGW/lib/pkgconfig:/usr/local/lib/pkgconfig 
+fi
+
+
+  4. 更改configure文件参考 script下的configure
+  修改configure文件
+  #SLIBNAME_WITH_VERSION='$(SLIBNAME).$(LIBVERSION)'
+  #SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'
+  #LIB_INSTALL_EXTRA_CMD='$$(RANLIB) "$(LIBDIR)/$(LIBNAME)"'
+  #SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'
+  #SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)'
+  替换为以下内容
+  SLIBNAME_WITH_VERSION='$(SLIBNAME).$(LIBVERSION)'
+  SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
+  LIB_INSTALL_EXTRA_CMD='$$(RANLIB)"$(LIBDIR)/$(LIBNAME)"'
+  SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'
+  SLIB_INSTALL_LINKS='$(SLIBNAME)'
+
+  
+ 6.将编写编译/srcript/build-android-arm.sh脚本复制到configure下，使用msys打开并执行
+  F:\FFmpeg\temp是编译临时文件 ；最终在F:\FFmpeg\output最终生成编译结果
+  （注意ndk版本不能太高,已经以及--target-os=android 的设置，其他设置：SYSROOT编译平台，TOOLCHAIN工具链，ARCH 架构选择要配套，以及cross-prefix 交叉编译配置等）
+
+https://stackoverflow.com/questions/18190605/problems-compiling-ffmpeg-on-windows-using-cygwin?r=SearchResults
+
+WARNING: F:/ndk/android-ndk-r14b/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/arm-linux-androideabi-pkg-config not found, library detection may fail.此警告可忽略
