@@ -2,7 +2,14 @@ ffmpeg3.4.6编译 for Android
 
 1.安装环境：
 win10 64
-mingw64(base Type install)安装gcc make等组建
+mingw64(base Type install)安装：
+   Basic Setup中选择”mingw32-base”、“mingw32-gcc-g++”、“msys-base”(右键选择“mark for installation”)； 
+   All Packages中选择：mingw32-autoconf(bin那一项，下同)、mingw32-automake、mingw32-autotools、mingw32-pkginfo、msys-mktemp；
+--------------------- 
+作者：listener51 
+来源：CSDN 
+原文：https://blog.csdn.net/listener51/article/details/78183789 
+版权声明：本文为博主原创文章，转载请附上博文链接！
 ndk-r14b
 2.配置环境
   1. mingw64下D:\mingw64\mingw32\bin:\mingw64\mingw32\bin path环境配置
@@ -45,3 +52,5 @@ fi
 https://stackoverflow.com/questions/18190605/problems-compiling-ffmpeg-on-windows-using-cygwin?r=SearchResults
 
 WARNING: F:/ndk/android-ndk-r14b/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/arm-linux-androideabi-pkg-config not found, library detection may fail.此警告可忽略
+
+其他:FFmepg调试可参考https://blog.csdn.net/listener51/article/details/78183789
